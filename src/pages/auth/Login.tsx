@@ -3,7 +3,11 @@ import "./auth.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import loginImg from "../../assets/login.png";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,27 +25,29 @@ const Login = () => {
     setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
+        setLoading(false);
+        toast.success("Login Successful");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        setLoading(false);
+      });
+    
+  };
+
+  const provider = new GoogleAuthProvider();
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
         toast.success("Login Successful");
         navigate("/");
       })
       .catch((error) => {
         toast.error(error.message);
       });
-    setLoading(false);
   };
-
-  const provider = new GoogleAuthProvider()
-  const signInWithGoogle = () => {
-    signInWithPopup(auth,provider)
-    .then((result) => {
-      const user = result.user
-      toast.success("Login Successful")
-      navigate('/')
-    })
-    .catch((error) => {
-      toast.error(error.message)
-    })
-  }
 
   return (
     <>
@@ -76,7 +82,10 @@ const Login = () => {
             </div>
             <p>-- or --</p>
           </form>
-          <button className="--btn --btn-danger --btn-block" onClick={signInWithGoogle}>
+          <button
+            className="--btn --btn-danger --btn-block"
+            onClick={signInWithGoogle}
+          >
             <FaGoogle color="#fff" /> Login With Google
           </button>
           <span className="register">
