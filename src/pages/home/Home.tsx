@@ -1,22 +1,29 @@
-import React from "react";
-import { Card } from "../../components/card/Card";
-import { Filters } from "../../components/filters/Filter";
-import { Filter2 } from "../../components/filters/Filter2";
-
+import React, { useEffect } from "react";
 import Slider from "../../components/slider/Slider";
 import "./home.scss";
+import Product from "../../components/product/Product";
 
 const Home = () => {
+  const url = window.location.href
+
+  const scrollToProducts = () => {
+    if(url.includes("#products")){
+      window.scrollTo({
+        top:700,
+        behavior:"smooth"
+      })
+      return
+    }
+  }
+
+  useEffect(() => {
+    scrollToProducts()
+  },[])
+
   return (
     <div>
       <Slider />
-      <div className="below-slider-content">
-        <Filters/>
-        <div>
-          <Filter2/>
-          <Card />
-        </div>
-      </div>
+      <Product/>
     </div>
   );
 };

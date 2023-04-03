@@ -12,6 +12,9 @@ import { removeUser, setUser } from "../../redux/features/authSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { ShowOnLogin, ShowOnLogout } from "../hiddenLinks/HiddenLinks";
+import AdminOnlyRoute, {
+  AdminOnlyLinks,
+} from "../adminOnlyRoute/AdminOnlyRoute";
 
 const logo = (
   <div className="logo">
@@ -40,8 +43,9 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   // const [Name, setName] = useState<string | null>("");
 
-  const { userName, isLoggedIn } = useSelector((store: RootState) => store.auth);
-
+  const { userName, isLoggedIn } = useSelector(
+    (store: RootState) => store.auth
+  );
 
   const dispatch = useDispatch();
 
@@ -51,7 +55,7 @@ const Header = () => {
       if (user) {
         // setName(user.displayName);
         let firstName;
-        if(user.displayName){
+        if (user.displayName) {
           firstName = user.displayName!.split(" ")[0];
         }
         dispatch(
@@ -103,6 +107,13 @@ const Header = () => {
                 <Link to="/">{logo}</Link>
                 <FaTimes size={22} color="#fffff" onClick={hideMenu} />
               </li>
+              <AdminOnlyLinks>
+                <li>
+                  <Link to="/admin/home">
+                    <button className="--btn --btn-primary">Admin</button>
+                  </Link>
+                </li>
+              </AdminOnlyLinks>
               <li>
                 <NavLink to="/" className={activeLink}>
                   Home
@@ -122,7 +133,7 @@ const Header = () => {
                   </NavLink>
                 </ShowOnLogout>
                 <ShowOnLogin>
-                  <a href="#" style={{color:"#ff7722"}}>
+                  <a href="#" style={{ color: "#ff7722" }}>
                     <FaUserCircle size={16} />
                     Hi, {userName}
                   </a>
