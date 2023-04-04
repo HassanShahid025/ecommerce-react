@@ -5,20 +5,17 @@ export interface IProducts {
   imageURL?: string;
   name?: string;
   price?: number;
-  desc?:string
-  createdAt?:any,
-  editedAt?:any
+  desc?: string;
+  createdAt?: any;
+  editedAt?: any;
 }
 
-export interface IProduct{
-  products:IProducts[]
+export interface IProduct {
+  products: IProducts[];
+  minPrice: null | number;
+  maxPrice: null | number;
 }
 
 export interface IFilter {
-  category: string[];
-  brand: string[];
-  products: IProducts[];
-  originalProducts:IProducts[]
-  originalCategory: string[];
-  originalBrand: string[];
+  filteredProducts: IProducts[];
 }

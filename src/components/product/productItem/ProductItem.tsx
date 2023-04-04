@@ -3,6 +3,8 @@ import style from "./ProductItem.module.scss";
 import { IProducts } from "../../../types";
 import { Card } from "../../card/Card";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { add_to_cart } from "../../../redux/features/cartSlice";
 
 interface IProductItem {
   product: IProducts;
@@ -20,6 +22,12 @@ const ProductItem = ({ product, grid }: IProductItem) => {
     return text
   }
 
+  const dispatch = useDispatch()
+
+  const addToCart = (product:IProducts) => {
+    dispatch(add_to_cart({product}))
+  }
+
   return(
     <Card cardClass={grid ? `${style.grid}` : `${style.list}`}>
       <Link to={`/product-details/${id}`}>
@@ -33,7 +41,7 @@ const ProductItem = ({ product, grid }: IProductItem) => {
           <h4>{shortingText(name!,18)}</h4>
         </div>
         {!grid && <p className={style.desc}>{shortingText(desc!,200)}</p>}
-        <button className="--btn --btn-danger">Add To Cart</button>
+        <button className="--btn --btn-danger" onClick={() => addToCart(product)}>Add To Cart</button>
       </div>
     </Card>
   )

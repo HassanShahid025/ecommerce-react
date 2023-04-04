@@ -2,114 +2,84 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IFilter, IProducts } from "../../types";
 
 const initialState: IFilter = {
-  category: [],
-  brand: [],
-  products: [],
-  originalProducts: [],
-  originalCategory: [],
-  originalBrand: [],
+  filteredProducts: [],
 };
 
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    initilizeProducts: (state, { payload }) => {
-      state.products = payload;
-      state.originalProducts = payload;
-      //setting brandList
-      let brandList: string[] = ["All"];
-      payload.map((item: IProducts) =>
-        brandList.includes(item.brand!) ? "" : brandList.push(item.brand!)
+    filter_by_search: (state, { payload }) => {
+      const { products, search } = payload;
+      const tempProducts = products.filter((product: IProducts) =>
+        product.name?.toLowerCase().includes(search.toLowerCase()) ||
+        product.brand?.toLowerCase().includes(search.toLowerCase())||
+        product.category?.toLowerCase().includes(search.toLowerCase())
       );
-      state.brand = brandList;
-      state.originalBrand = brandList;
-      //setting categoryList
-      let categoryList: string[] = ["All"];
-      payload.map((item: IProducts) =>
-        categoryList.includes(item.category!)
-          ? ""
-          : categoryList.push(item.category!)
-      );
-      state.category = categoryList;
-      state.originalCategory = categoryList;
+      state.filteredProducts = tempProducts
     },
-
-    filterByCategory: (state, { payload }) => {
-      const { activeCategory } = payload;
-      if (activeCategory === "All") {
-        state.brand = state.originalBrand;
-        state.products = state.originalProducts;
-      } else {
-        const temp: string[] = ["All"];
-        state.originalProducts.map((product) =>
-          product.category === activeCategory && !temp.includes(product.brand!)
-            ? temp.push(product.brand!)
-            : ""
-        );
-        state.products = state.originalProducts.filter((product) => product.category === activeCategory)
-        state.brand = temp;
+    filter_by_sort: (state, { payload }) => {
+      const { products, sort } = payload;
+      let tempProducts:IProducts[] = []
+      if(sort === "latest"){
+        tempProducts = products
       }
+      else if(sort === "lowest-price"){
+         tempProducts = products.slice().sort((a:IProducts,b:IProducts) => {
+          return a.price! - b.price!
+         })
+      }
+      else if(sort === "highest-price"){
+         tempProducts = products.slice().sort((a:IProducts,b:IProducts) => {
+          return b.price!- a.price!
+         })
+      }
+      else if(sort === "a-z"){
+         tempProducts = products.slice().sort((a:IProducts,b:IProducts) => {
+          return a.name!.localeCompare(b.name!)
+         })
+      }
+      else if(sort === "z-a"){
+         tempProducts = products.slice().sort((a:IProducts,b:IProducts) => {
+          return b.name!.localeCompare(a.name!)
+         })
+      }
+      
+      state.filteredProducts = tempProducts
     },
-    filterByBrand: (state, {payload}) => {
-      const {activeBrand, activeCategory} = payload
-      if(activeCategory === "All" && activeBrand === "All"){
-        state.products = state.originalProducts
+    filter_by_category:(state, {payload}) => {
+      const {products,category} = payload
+      let tempProducts:IProducts[] = []
+      if(category === "All"){
+        tempProducts = products
+      }else{
+        tempProducts = products.filter((product:IProducts) => product.category === category)
       }
-      else if(activeCategory === "All"){
-        state.products = state.originalProducts.filter((product) => product.brand === activeBrand)
+      state.filteredProducts = tempProducts
+    },
+    filter_by_brand:(state, {payload}) => {
+      const {products,brand,category} = payload
+      let tempProducts:IProducts[] = []
+      if(brand === "All" && category === "All"){
+        tempProducts = products
+      }
+      else if(category !== "All" && brand === "All"){
+        tempProducts = products.filter((product:IProducts) => product.category === category)
       }
       else{
-        state.products = state.originalProducts.filter((product) => product.brand === activeBrand && product.category === activeCategory)
+        tempProducts = products.filter((product:IProducts) => product.brand === brand)
       }
+      state.filteredProducts = tempProducts
     },
-    filterBySearch : (state, {payload}) => {
-      const {searchProducts, search} = payload
-      const tempProducts = searchProducts.filter(
-        (product:any) =>
-          product.name.toLowerCase().includes(search.toLowerCase()) ||
-          product.category.toLowerCase().includes(search.toLowerCase())
-      );
-      state.products = tempProducts
-    },
-    sortProducts : (state, {payload}) => {
-      const {sortProducts, sort} = payload;
-      let tempProducts = []
-      if (sort === "latest") {
-        tempProducts = sortProducts;
-      }
-      if (sort === "lowest-highest") {
-        tempProducts = sortProducts.slice().sort((a:any, b:any) => {
-          return a.price - b.price;
-        });
-      }
-
-      if (sort === "highest-lowest") {
-        tempProducts = sortProducts.slice().sort((a:any, b:any) => {
-          return b.price - a.price;
-        });
-      }
-
-      if (sort === "a-z") {
-        tempProducts = sortProducts.slice().sort((a:any, b:any) => {
-          return a.name.localeCompare(b.name);
-        });
-      }
-      if (sort === "z-a") {
-        tempProducts = sortProducts.slice().sort((a:any, b:any) => {
-          return b.name.localeCompare(a.name);
-        });
-      }
-      state.products = tempProducts
-
-    },
-    clearAllFilters: (state) => {
-      state.brand = state.originalBrand;
-      state.products = state.originalProducts;
-    },
+    filter_by_price:(state, {payload}) => {
+      const {price, products} = payload
+      let tempProducts:IProducts[] = []
+      tempProducts = products.filter((product:IProducts) => product.price! <= price)
+      state.filteredProducts = tempProducts
+    }
   },
 });
 
-export const { filterByCategory, clearAllFilters, filterByBrand, initilizeProducts, sortProducts,filterBySearch } =
-  filterSlice.actions;
+export const { filter_by_search, filter_by_sort,filter_by_category, filter_by_brand,filter_by_price } = filterSlice.actions;
+
 export default filterSlice.reducer;
