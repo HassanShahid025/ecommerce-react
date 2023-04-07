@@ -6,6 +6,10 @@ import { db } from "../../../firebase/config";
 import { IProducts } from "../../../types";
 import { toast } from "react-toastify";
 import spinnerImg from "../../../assets/spinner.jpg";
+import { add_to_cart, calculate_CartTotalQuantity, decrease_cart } from "../../../redux/features/cartSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -29,6 +33,22 @@ const ProductDetails = () => {
   useEffect(() => {
     getProduct();
   }, []);
+
+  const dispatch = useDispatch()
+
+  const {cartItems} = useSelector((store:RootState) => store.cart)
+
+  const cart = cartItems.find((cart) => cart.id === id)
+
+  const decreaseCart = (cart: IProducts) => {
+    dispatch(decrease_cart({ product: cart }));
+    dispatch(calculate_CartTotalQuantity())
+  };
+
+  const addToCart = (product:IProducts) => {
+    dispatch(add_to_cart({product}))
+    dispatch(calculate_CartTotalQuantity())
+  }
 
   return (
     <section>
@@ -55,14 +75,14 @@ const ProductDetails = () => {
                 <p>
                   <b>Brand</b> {product.brand}
                 </p>
-                <div className={style.count}>
-                  <button className="--btn">-</button>
+                {cart && <div className={style.count}>
+                  <button className="--btn" onClick={() => decreaseCart(product)}>-</button>
                   <p>
-                    <b>1</b>
+                    <b>{cart?.cartQuantiy}</b>
                   </p>
-                  <button className="--btn">+</button>
-                </div>
-                <button className="--btn --btn-danger">ADD TO CART</button>
+                  <button className="--btn" onClick={() => addToCart(product)}>+</button>
+                </div>}
+                <button className="--btn --btn-danger" onClick={() => addToCart(product)}>ADD TO CART</button>
               </div>
             </div>
           </>

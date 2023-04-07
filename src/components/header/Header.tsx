@@ -15,6 +15,7 @@ import { ShowOnLogin, ShowOnLogout } from "../hiddenLinks/HiddenLinks";
 import AdminOnlyRoute, {
   AdminOnlyLinks,
 } from "../adminOnlyRoute/AdminOnlyRoute";
+import { calculate_CartTotalQuantity, calculate_cartTotalAmount } from "../../redux/features/cartSlice";
 
 const logo = (
   <div className="logo">
@@ -29,25 +30,29 @@ const logo = (
 const activeLink = ({ isActive }: { isActive: boolean }) =>
   isActive ? "active" : "";
 
-const cart = (
-  <span className="cart">
-    <NavLink to="/cart" className={activeLink}>
-      Cart
-      <FaShoppingCart size={20} />
-      <p>0</p>
-    </NavLink>
-  </span>
-);
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   // const [Name, setName] = useState<string | null>("");
+  const [scrollPage, setScrollPage] = useState(false)
 
   const { userName, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
   );
 
+  const {cartTotalQuantity, cartItems} = useSelector((store:RootState) => store.cart)  
+
   const dispatch = useDispatch();
+
+  const fixNavbar = () => {
+    if(window.scrollY > 50){
+      setScrollPage(true)
+    }
+    else{
+      setScrollPage(false)
+    }
+  }
+  window.addEventListener("scroll", fixNavbar)
 
   //Monitor currently signed in user
   useEffect(() => {
@@ -89,10 +94,25 @@ const Header = () => {
       });
   };
 
+  const cart = (
+    <span className="cart">
+      <NavLink to="/cart" className={activeLink}>
+        Cart
+        <FaShoppingCart size={20} />
+        <p>{cartTotalQuantity}</p>
+      </NavLink>
+    </span>
+  );
+
+  useEffect(() => {
+    dispatch(calculate_cartTotalAmount())
+    dispatch(calculate_CartTotalQuantity())
+  },[cartItems])
+
   return (
     <>
       <ToastContainer />
-      <header>
+      <header className={scrollPage ? "fixed" : ""} >
         <div className="header">
           {logo}
           <nav className={showMenu ? "show-nav" : "hide-nav"}>

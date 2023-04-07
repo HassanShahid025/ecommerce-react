@@ -4,7 +4,7 @@ import { IProducts } from "../../../types";
 import { Card } from "../../card/Card";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { add_to_cart } from "../../../redux/features/cartSlice";
+import { add_to_cart, calculate_CartTotalQuantity } from "../../../redux/features/cartSlice";
 
 interface IProductItem {
   product: IProducts;
@@ -26,7 +26,9 @@ const ProductItem = ({ product, grid }: IProductItem) => {
 
   const addToCart = (product:IProducts) => {
     dispatch(add_to_cart({product}))
+    dispatch(calculate_CartTotalQuantity())
   }
+
 
   return(
     <Card cardClass={grid ? `${style.grid}` : `${style.list}`}>
