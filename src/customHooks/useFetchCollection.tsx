@@ -5,7 +5,7 @@ import { db } from "../firebase/config";
 import { toast } from "react-toastify";
 
 const useFetchCollection = (collectionName : string ) => {
-  const [data, setData] = useState<IProducts[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const getCollection = () => {

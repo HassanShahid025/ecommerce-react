@@ -6,6 +6,13 @@ import { useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import { ICard } from "../../types";
 import { current } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { clear_cart } from "../../redux/features/cartSlice";
+import { toast } from "react-toastify";
 
 const initialCardData = {
   name: "",
@@ -21,6 +28,13 @@ const CheckoutPayment = () => {
   const [paymentOption, setPaymentOption] = useState("");
   const [card, setCard] = useState({ ...initialCardData });
   const [isExpiry, setIsExpiry] = useState(false);
+
+  const {email,userId} = useSelector((store:RootState) => store.auth)
+  const {cartItems,cartTotalAmount} = useSelector((store:RootState) => store.cart)
+  const {shippingAddress} = useSelector((store:RootState) => store.checkout)
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handlePaymentOptionChange = (e: any) => {
     setPaymentOption(e.target.value);
@@ -99,14 +113,6 @@ const CheckoutPayment = () => {
     }
   };
 
-  const navigate = useNavigate();
-
-  const handleSubmit = () => {
-    console.log("working....");
-    if (paymentOption === "card") {
-    }
-    navigate("/checkout-success");
-  };
 
   const formatExpiryInput = (event: any) => {
     const inputChar = String.fromCharCode(event.keyCode);
@@ -146,6 +152,32 @@ const CheckoutPayment = () => {
         "/" // Prevent entering more than 1 `/`
       );
       setCard({...card, expiration:event.target.value})
+  };
+
+  const handleSubmit = () => {
+    const today = new Date();
+    const date = today.toDateString();
+    const time = today.toLocaleTimeString();
+    const orderConfig = {
+      userId,
+      email,
+      orderDate:date,
+      orderTime:time,
+      orderAmount: cartTotalAmount,
+      orderStatus:"Order Placed...",
+      cartItems,
+      shippingAddress,
+      createdAt:Timestamp.now().toDate()
+    };
+
+    try {
+      addDoc(collection(db, "orders"), orderConfig);
+      dispatch(clear_cart())
+      toast.success("You order has been placed successfully")
+      navigate("/checkout-success");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (

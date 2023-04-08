@@ -112,7 +112,7 @@ const Header = () => {
   return (
     <>
       <ToastContainer />
-      <header className={scrollPage ? "fixed" : ""} >
+      <header className="fixed" >
         <div className="header">
           {logo}
           <nav className={showMenu ? "show-nav" : "hide-nav"}>

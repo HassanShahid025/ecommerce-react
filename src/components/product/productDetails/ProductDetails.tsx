@@ -6,49 +6,47 @@ import { db } from "../../../firebase/config";
 import { IProducts } from "../../../types";
 import { toast } from "react-toastify";
 import spinnerImg from "../../../assets/spinner.jpg";
-import { add_to_cart, calculate_CartTotalQuantity, decrease_cart } from "../../../redux/features/cartSlice";
+import {
+  add_to_cart,
+  calculate_CartTotalQuantity,
+  decrease_cart,
+} from "../../../redux/features/cartSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import useFetchDocument from "../../../customHooks/useFetchDocument";
+import useFetchCollection from "../../../customHooks/useFetchCollection";
+import { Card } from "../../card/Card";
+import StarsRating from "react-star-rate";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<IProducts | null>(null);
 
-  const getProduct = async () => {
-    const docRef = doc(db, "products", id!);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const obj = {
-        id: id,
-        ...docSnap.data(),
-      };
-      setProduct(obj);
-    } else {
-      toast.error("Product not found.");
-    }
-  };
+  const { document } = useFetchDocument("products", id!);
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    setProduct(document);
+  }, [document]);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const {cartItems} = useSelector((store:RootState) => store.cart)
+  const { cartItems } = useSelector((store: RootState) => store.cart);
+  const { data } = useFetchCollection("reviews");
+  const filteredReviews = data.filter((review) => review.productID == id);
+  console.log(filteredReviews);
 
-  const cart = cartItems.find((cart) => cart.id === id)
+  const cart = cartItems.find((cart) => cart.id === id);
 
   const decreaseCart = (cart: IProducts) => {
     dispatch(decrease_cart({ product: cart }));
-    dispatch(calculate_CartTotalQuantity())
+    dispatch(calculate_CartTotalQuantity());
   };
 
-  const addToCart = (product:IProducts) => {
-    dispatch(add_to_cart({product}))
-    dispatch(calculate_CartTotalQuantity())
-  }
+  const addToCart = (product: IProducts) => {
+    dispatch(add_to_cart({ product }));
+    dispatch(calculate_CartTotalQuantity());
+  };
 
   return (
     <section>
@@ -58,7 +56,7 @@ const ProductDetails = () => {
           <Link to="/#products">&larr; Back to Products</Link>
         </div>
         {product === null ? (
-          <img src={spinnerImg} alt="Loading.." style={{width:"50px"}}/>
+          <img src={spinnerImg} alt="Loading.." style={{ width: "50px" }} />
         ) : (
           <>
             <div className={style.details}>
@@ -75,18 +73,60 @@ const ProductDetails = () => {
                 <p>
                   <b>Brand</b> {product.brand}
                 </p>
-                {cart && <div className={style.count}>
-                  <button className="--btn" onClick={() => decreaseCart(product)}>-</button>
-                  <p>
-                    <b>{cart?.cartQuantiy}</b>
-                  </p>
-                  <button className="--btn" onClick={() => addToCart(product)}>+</button>
-                </div>}
-                <button className="--btn --btn-danger" onClick={() => addToCart(product)}>ADD TO CART</button>
+                {cart && (
+                  <div className={style.count}>
+                    <button
+                      className="--btn"
+                      onClick={() => decreaseCart(product)}
+                    >
+                      -
+                    </button>
+                    <p>
+                      <b>{cart?.cartQuantiy}</b>
+                    </p>
+                    <button
+                      className="--btn"
+                      onClick={() => addToCart(product)}
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
+                <button
+                  className="--btn --btn-danger"
+                  onClick={() => addToCart(product)}
+                >
+                  ADD TO CART
+                </button>
               </div>
             </div>
           </>
         )}
+          <h3>Product Reviews</h3>
+          <div>
+            {filteredReviews.length === 0 ? (<p>There are no reviews for this product yet</p>) :(
+              <>
+        <Card cardClass={style.card}>
+                {filteredReviews.map((item,index) => {
+                  const {rate,review,reviewDate,userName} = item
+                  return(
+                    <div className={style.review} key={index}>
+                      <StarsRating value={rate}/>
+                      <p>{review}</p>
+                      <span>
+                        <b>{reviewDate}</b>
+                      </span>
+                      <br />
+                      <span>
+                        <b>By: {userName}</b>
+                      </span>
+                    </div>
+                  )
+                })}
+            </Card>
+              </>
+            )}
+          </div>
       </div>
     </section>
   );
