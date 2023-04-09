@@ -4,13 +4,12 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "dev:frontend": "vite",
-    "dev:backend": "nodemon server.js",
-    "dev": "node server",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.11.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.52.0",

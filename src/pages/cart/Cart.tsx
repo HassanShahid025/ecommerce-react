@@ -49,8 +49,8 @@ const Cart = () => {
       {
         width: "320px",
         borderRadius: "8px",
-        titleColor: "orangered",
-        okButtonBackground: "orangered",
+        titleColor: "#f7c17b",
+        okButtonBackground: "#f7c17b",
         cssAnimationStyle: "zoom",
       }
     );
@@ -71,8 +71,8 @@ const Cart = () => {
       {
         width: "320px",
         borderRadius: "8px",
-        titleColor: "orangered",
-        okButtonBackground: "orangered",
+        titleColor: "#f7c17b",
+        okButtonBackground: "#f7c17b",
         cssAnimationStyle: "zoom",
       }
     );

@@ -28,7 +28,7 @@ header .logo a h2 {
   cursor: pointer;
 }
 header .logo a h2 span {
-  color: orangered;
+  color: #f7c17b;
 }
 header nav {
   width: 75%;
@@ -50,7 +50,7 @@ header nav ul li a {
   color: #fff;
 }
 header nav ul li a:hover {
-  color: orangered;
+  color: #f7c17b;
 }
 header .header-right {
   display: flex;
@@ -61,7 +61,7 @@ header .header-right .cart a {
   position: relative;
 }
 header .header-right .cart a:hover {
-  color: orangered;
+  color: #f7c17b;
 }
 header .header-right .cart a.active {
   color: var(--color-danger);
@@ -83,7 +83,7 @@ header .header-right .links a {
   color: #fff;
 }
 header .header-right .links a:hover {
-  color: orangered;
+  color: #f7c17b;
 }
 header .header-right .links a.active {
   color: var(--color-danger);
@@ -161,7 +161,7 @@ header .menu-icon {
     position: relative;
   }
   header .cart a:hover {
-    color: orangered;
+    color: #f7c17b;
   }
   header .cart a p {
     position: absolute;
@@ -197,4 +197,4 @@ header .menu-icon {
   width: 100%;
   height: 2px;
   background-color: #fff;
-}/*# sourceMappingURL=header.css.map */
+} /*# sourceMappingURL=header.css.map */

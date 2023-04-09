@@ -1,12 +1,12 @@
 import { useState } from "react";
-import "./auth.scss";
+import style from "./auth.module.scss";
 import registerImg from "../../assets/register.png";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/config";
-import Loader from "../../components/loader/Loader";
+import ReactLoading from "react-loading";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -28,15 +28,17 @@ const Register = () => {
         .then((userCredentials) => {
           const user = userCredentials.user;
           updateProfile(auth.currentUser!, {
-            displayName: fullName
-          }).then(() => {
-            // Profile updated!
-            // ...
-          }).catch((error) => {
-            // An error occurred
-            // ...
-          });
-          console.log(user)
+            displayName: fullName,
+          })
+            .then(() => {
+              // Profile updated!
+              // ...
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
+          console.log(user);
           setLoading(false);
           toast.success("Registration Successfull");
           navigate("/login");
@@ -51,9 +53,11 @@ const Register = () => {
   return (
     <>
       <ToastContainer />
-      {loading && <Loader />}
-      <section className="container auth">
-        <div className="form">
+      {loading && (
+        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+      )}
+      <section className={`container ${style.auth}`}>
+        <div className={style.form}>
           <h2>Register</h2>
           <form onSubmit={registerUser}>
             <input
@@ -101,13 +105,13 @@ const Register = () => {
               Register
             </button>
           </form>
-          <span className="register">
+          <span className={style.register}>
             <p>Already have an account?</p>
             <Link to="/login">Login</Link>
           </span>
         </div>
-        <div className="img">
-          <img src={registerImg} alt="Register" width="400" />
+        <div className={style.img}>
+          <img src={registerImg} alt="Register" style={{ width: "400px" }} />
         </div>
       </section>
     </>

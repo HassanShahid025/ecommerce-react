@@ -29,7 +29,7 @@ export default AdminOnlyRoute;
 export const AdminOnlyLinks = ({ children }: any) => {
   const { email } = useSelector((store: RootState) => store.auth);
 
-  if (email === "adminedukaan@gmail.com") {
+  if (email === import.meta.env.VITE_REACT_APP_ADMIN_USER) {
     // password = adminedukaan
     return children;
   } else {

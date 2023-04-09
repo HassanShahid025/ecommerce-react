@@ -15,6 +15,7 @@ import Loader from "../../loader/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import ReactLoading from "react-loading";
 
 const categories = [
   {
@@ -149,7 +150,9 @@ const AddProduct = () => {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading && (
+        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+      )}
       <div className={styles.product}>
         <h2>{detectForm(id!, "Add Product", "Edit Product")}</h2>
         <Card cardClass={styles.card}>

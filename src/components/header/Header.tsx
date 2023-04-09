@@ -21,7 +21,7 @@ const logo = (
   <div className="logo">
     <Link to="/">
       <h2>
-        e<span>Shop</span>.
+        e<span>Dukaan</span>.
       </h2>
     </Link>
   </div>
@@ -153,7 +153,7 @@ const Header = () => {
                   </NavLink>
                 </ShowOnLogout>
                 <ShowOnLogin>
-                  <a href="#" style={{ color: "#ff7722" }}>
+                  <a href="#" style={{ color: "#f7c17b" }}>
                     <FaUserCircle size={16} />
                     Hi, {userName}
                   </a>

@@ -18,11 +18,11 @@ const Home = () => {
 
   useEffect(() => {
     scrollToProducts()
-  },[])
+  },[url])
 
   return (
     <div>
-      {/* <Slider /> */}
+      <Slider />
       <Product/>
     </div>
   );

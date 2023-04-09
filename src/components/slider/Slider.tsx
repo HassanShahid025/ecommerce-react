@@ -2,60 +2,62 @@ import { useEffect, useState } from "react";
 import "./slider.scss";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { sliderData } from "./sliderData";
+import { Link } from "react-router-dom";
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderLength = sliderData.length;
 
   const prevSlide = () => {
-    currentSlide !== 0
-      ? setCurrentSlide(currentSlide - 1)
-      : setCurrentSlide(sliderLength - 1);
+    setCurrentSlide((index) => (index !== 0 ? index - 1 : sliderLength - 1));
   };
   const nextSlide = () => {
-    currentSlide !== sliderLength - 1
-      ? setCurrentSlide(currentSlide + 1)
-      : setCurrentSlide(0);
+    setCurrentSlide((index) => (index !== sliderLength - 1 ? index + 1 : 0));
   };
 
   useEffect(() => {
-    setCurrentSlide(0)
-  },[])
+    setCurrentSlide(0);
+  }, []);
 
-  let slideInterval:any;
-  function auto (){
-    slideInterval = setInterval(nextSlide, 5000)
-  }
 
-  useEffect(() => {
-    auto()
-    return () => clearInterval(slideInterval)
-  },[currentSlide])
+    useEffect(() => {
+      let slider = setInterval(nextSlide, 3000);
+      return () => clearInterval(slider);
+    }, [currentSlide]);
 
   return (
     <div className="slider">
       <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
       <AiOutlineArrowRight className="arrow next" onClick={nextSlide} />
       {sliderData.map((slide, index) => {
+
+        let position = "nextSlide";
+        if (index === currentSlide) position = "activeSlide";
+        if (
+          index === currentSlide - 1 ||
+          (currentSlide === 0 && index === sliderLength - 1)
+        ) {
+          position = "lastSlide";
+        }
+
         return (
-          <div
+          <article
             key={index}
-            className={index === currentSlide ? "slide current" : "slide"}
+            className={position}
           >
-            {index === currentSlide && (
-              <>
+            
                 <img src={slide.image} alt="slide" />
                 <div className="content">
                   <h2>{slide.heading}</h2>
                   <p>{slide.desc}</p>
                   <hr />
-                  <a href="#product" className="--btn --btn-primary">
+                  <Link to="/#products" className="--btn --btn-primary">
                     Shop Now
-                  </a>
+                  </Link>
                 </div>
-              </>
-            )}
-          </div>
+             
+           
+          </article>
         );
       })}
     </div>

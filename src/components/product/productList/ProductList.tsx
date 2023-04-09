@@ -52,7 +52,7 @@ export const ProductList = ({ products }: IProductList) => {
         <div className={style.icons}>
           <BsFillGridFill
             size={22}
-            color="orangered"
+            color="#325662"
             onClick={() => setGrid(true)}
           />
           <FaListAlt size={24} color="#0066d4" onClick={() => setGrid(false)} />

@@ -23,7 +23,7 @@ const OrderDetails = () => {
         </div>
         <br />
         {order === undefined || order === null ? (
-          <ReactLoading type="spin" color="blue" height={400} width={100} />
+          <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
         ) : (
           <>
             <p>
@@ -31,8 +31,7 @@ const OrderDetails = () => {
               {order.id}
             </p>
             <p>
-              <b>Order Amount: </b>
-              ${order!.orderAmount}
+              <b>Order Amount: </b>${order!.orderAmount}
             </p>
             <p>
               <b>Order Status: </b>
@@ -73,7 +72,10 @@ const OrderDetails = () => {
                       <td>{"$" + (price! * cartQuantiy!).toFixed(2)}</td>
                       <td className={style.icon}>
                         <button className="--btn --btn-primary">
-                          <Link to={`/review-product/${id}`} style={{color:"white"}}>
+                          <Link
+                            to={`/review-product/${id}`}
+                            style={{ color: "white" }}
+                          >
                             Review Product
                           </Link>
                         </button>

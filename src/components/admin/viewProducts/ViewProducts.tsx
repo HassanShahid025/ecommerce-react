@@ -16,6 +16,7 @@ import { RootState } from "../../../redux/store";
 import { filter_by_search } from "../../../redux/features/filterSlice";
 import Search from "../../search/Search";
 import Pagination from "../../pagination/Pagination";
+import ReactLoading from "react-loading";
 
 const ViewProducts = () => {
   const { data, isLoading } = useFetchCollection("products");
@@ -49,8 +50,8 @@ const ViewProducts = () => {
       {
         width: "320px",
         borderRadius: "8px",
-        titleColor: "orangered",
-        okButtonBackground: "orangered",
+        titleColor: "#f7c17b",
+        okButtonBackground: "#f7c17b",
         cssAnimationStyle: "zoom",
       }
     );
@@ -80,14 +81,18 @@ const ViewProducts = () => {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading && (
+        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+      )}
       <div className="table">
         <h2>All Products</h2>
         <div className="search">
-          {filteredProducts.length !==0 && <p>
-            <b>{filteredProducts.length} </b>
-            {filteredProducts.length > 1 ? "products found" : "product found"}
-          </p>}
+          {filteredProducts.length !== 0 && (
+            <p>
+              <b>{filteredProducts.length} </b>
+              {filteredProducts.length > 1 ? "products found" : "product found"}
+            </p>
+          )}
           {/* {Search Icon} */}
           <div>
             <Search
@@ -143,12 +148,12 @@ const ViewProducts = () => {
             </tbody>
           </table>
         )}
-         <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        productsPerPage={productsPerPage}
-        totalProducts={filteredProducts.length}
-      />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          productsPerPage={productsPerPage}
+          totalProducts={filteredProducts.length}
+        />
       </div>
     </>
   );

@@ -18,7 +18,7 @@ import Chart from "../../chart/Chart";
 //Icons
 const earningIcon = <AiFillDollarCircle size={30} color="#b624ff" />;
 const productIcon = <BsCart4 size={30} color="#1f93ff" />;
-const ordersIcon = <FaCartArrowDown size={30} color="orangered" />;
+const ordersIcon = <FaCartArrowDown size={30} color="#f7c17b" />;
 
 const AdminHome = () => {
   const { products } = useSelector((store: RootState) => store.product);
@@ -30,7 +30,7 @@ const AdminHome = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Store_Products({products:fbProducts.data}));
+    dispatch(Store_Products({ products: fbProducts.data }));
     dispatch(store_order(fbOrders.data));
     dispatch(calc_total_orders_amount());
   }, [fbProducts, fbOrders]);
@@ -59,7 +59,7 @@ const AdminHome = () => {
         />
       </div>
       <div>
-        <Chart/>
+        <Chart />
       </div>
     </div>
   );

@@ -3,57 +3,58 @@ import style from "./changeOrderStatus.module.scss";
 import ReactLoading from "react-loading";
 import { Card } from "../../card/Card";
 import { IOrder } from "../../../types";
-import { Timestamp,   doc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-interface IChangeOrderStatus{
-    order:IOrder | undefined;
-    id:string | undefined
+interface IChangeOrderStatus {
+  order: IOrder | undefined;
+  id: string | undefined;
 }
 
-const ChangeOrderStatus = ({order,id}:IChangeOrderStatus) => {
+const ChangeOrderStatus = ({ order, id }: IChangeOrderStatus) => {
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const editOrder = (e:any,id:string) => {
-    setIsLoading(true)
-    e.preventDefault()
+  const editOrder = (e: any, id: string) => {
+    setIsLoading(true);
+    e.preventDefault();
     const orderConfig = {
-      userId:order?.userId,
-      email:order?.email,
-      orderDate:order?.orderDate,
-      orderTime:order?.orderTime,
+      userId: order?.userId,
+      email: order?.email,
+      orderDate: order?.orderDate,
+      orderTime: order?.orderTime,
       orderAmount: order?.orderAmount,
-      orderStatus:status,
-      cartItems:order?.cartItems,
-      shippingAddress:order?.shippingAddress,
-      createdAt:order?.createdAt,
-      editedAt:Timestamp.now().toDate()
+      orderStatus: status,
+      cartItems: order?.cartItems,
+      shippingAddress: order?.shippingAddress,
+      createdAt: order?.createdAt,
+      editedAt: Timestamp.now().toDate(),
     };
 
     try {
-      setDoc(doc(db, "orders",id), orderConfig);
-      setIsLoading(false)
-      toast.success("Order status updated successfully")
+      setDoc(doc(db, "orders", id), orderConfig);
+      setIsLoading(false);
+      toast.success("Order status updated successfully");
       navigate("/admin/orders");
     } catch (error: any) {
-        setIsLoading(false)
+      setIsLoading(false);
       toast.error(error.message);
-    }} 
+    }
+  };
 
   return (
     <>
       {isLoading && (
-        <ReactLoading type="spin" color="blue" height={400} width={100} />
+        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
       )}
       <div className={style.status}>
         <Card cardClass={style.card}>
           <h4>Update Status</h4>
-          <form onSubmit={(e) => editOrder(e,id!)}>
+          <form onSubmit={(e) => editOrder(e, id!)}>
             <span>
               <select
                 value={status}

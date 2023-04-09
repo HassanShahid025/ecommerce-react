@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { store_order } from "../../redux/features/orderSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import Loader from "../../components/loader/Loader";
+import ReactLoading from "react-loading";
 import { useNavigate } from "react-router-dom";
 
 const OrderHistory = () => {
@@ -18,13 +18,17 @@ const OrderHistory = () => {
     dispatch(store_order(data));
   }, [data]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleClick = (id:string) => {
-    navigate(`/order-details/${id}`)
-  }
+  const handleClick = (id: string) => {
+    navigate(`/order-details/${id}`);
+  };
 
-  const filteredOrders = orderHistory.filter((order:any) => order.userId === userId)
+  console.log(orderHistory);
+
+  const filteredOrders = orderHistory.filter(
+    (order: any) => order.userId === userId
+  );
 
   return (
     <section>
@@ -35,7 +39,14 @@ const OrderHistory = () => {
         </p>
         <br />
         <>
-          {isLoading && <Loader />}
+          {isLoading && (
+            <ReactLoading
+              type="spin"
+              color="#008ae6"
+              height={400}
+              width={100}
+            />
+          )}
           <div className={style.table}>
             {filteredOrders.length === 0 ? (
               <p>No order found</p>

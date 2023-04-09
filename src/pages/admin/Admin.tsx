@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "../../components/admin/navbar/Navbar";
-import "./admin.scss";
+import style from './admin.module.scss'
 import AdminHome from "../../components/admin/home/AdminHome";
 import ViewProducts from "../../components/admin/viewProducts/ViewProducts";
 import Orders from "../../components/admin/orders/Orders";
@@ -9,11 +9,11 @@ import OrderDetails from "../../components/admin/orderDetails/OrderDetails";
 
 const Admin = () => {
   return (
-    <div className="admin">
-      <div className="navbarr">
+    <div className={style.admin}>
+      <div className={style.navbarr}>
         <Navbar />
       </div>
-      <div className="content">
+      <div className={style.content}>
         <Routes>
           <Route path="/home" element={<AdminHome/>} />
           <Route path="/all-products" element={<ViewProducts />} />

@@ -55,7 +55,7 @@ const ReviewProduct = () => {
       <div className={`container ${style.review}`}>
         <h2>Review Product</h2>
         {product === null ? (
-          <ReactLoading type="spin" color="blue" height={400} width={50} />
+          <ReactLoading type="spin" color="#008ae6" height={400} width={50} />
         ) : (
           <>
             <p>

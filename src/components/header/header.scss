@@ -26,8 +26,11 @@ header {
     width: 25%;
     color: #fff;
     cursor: pointer;
+    font-family: 'Inter Tight', sans-serif;
+    font-family: 'Caveat', cursive;
+    font-size: 5rem;
     span {
-      color: orangered;
+      color: #f7c17b;
     }
   }
 
@@ -49,7 +52,7 @@ header {
         a {
           color: #fff;
           &:hover {
-            color: orangered;
+            color: #f7c17b;
           }
         }
       }
@@ -64,7 +67,7 @@ header {
       color: #fff;
       position: relative;
       &:hover {
-        color: orangered;
+        color: #f7c17b;
       }
       &.active {
         color: var(--color-danger);
@@ -89,7 +92,7 @@ header {
       margin: 0 5px;
       color: #fff;
       &:hover {
-        color: orangered;
+        color: #f7c17b;
       }
       &.active {
         color: var(--color-danger);
@@ -186,7 +189,7 @@ header {
         color: #fff;
         position: relative;
         &:hover {
-          color: orangered;
+          color: #f7c17b;
         }
         p {
           position: absolute;

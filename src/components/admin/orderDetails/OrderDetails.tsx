@@ -24,7 +24,7 @@ const OrderDetails = () => {
         </div>
         <br />
         {order === undefined || order === null ? (
-          <ReactLoading type="spin" color="blue" height={400} width={100} />
+          <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
         ) : (
           <>
             <p>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./auth.scss";
+import style from "./auth.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import loginImg from "../../assets/login.png";
@@ -14,24 +14,24 @@ import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/loader/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import ReactLoading from "react-loading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const {previousUrl} = useSelector((store:RootState) => store.cart)
+  const { previousUrl } = useSelector((store: RootState) => store.cart);
 
   const navigate = useNavigate();
 
   const redirectUser = () => {
-    if(previousUrl === ""){
+    if (previousUrl === "") {
       navigate("/");
+    } else {
+      navigate("/cart");
     }
-    else{
-      navigate('/cart')
-    }
-  }
+  };
 
   const loginUser = (e: any) => {
     e.preventDefault();
@@ -40,13 +40,12 @@ const Login = () => {
       .then((userCredentials) => {
         setLoading(false);
         toast.success("Login Successful");
-        redirectUser()
+        redirectUser();
       })
       .catch((error) => {
         toast.error(error.message);
         setLoading(false);
       });
-    
   };
 
   const provider = new GoogleAuthProvider();
@@ -55,7 +54,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         toast.success("Login Successful");
-        redirectUser()
+        redirectUser();
       })
       .catch((error) => {
         toast.error(error.message);
@@ -65,12 +64,16 @@ const Login = () => {
   return (
     <>
       <ToastContainer />
-      {loading && <Loader />}
-      <section className="container auth">
-        <div className="img">
-          <img src={loginImg} alt="Login" width="400" />
+      {loading && (
+        <div className="loading-container">
+          <ReactLoading type="spin" color="#008ae6" height={400} width={100} className="loading"/>
         </div>
-        <div className="form">
+      )}
+      <section className={`container ${style.auth}`}>
+        <div className={style.img}>
+          <img src={loginImg} alt="Login" style={{ width: "400px" }} />
+        </div>
+        <div className={style.form}>
           <h2>Login</h2>
           <form onSubmit={loginUser}>
             <input
@@ -101,7 +104,7 @@ const Login = () => {
           >
             <FaGoogle color="#fff" /> Login With Google
           </button>
-          <span className="register">
+          <span className={style.register}>
             <p>Don't have a account?</p>
             <Link to="/register">Register</Link>
           </span>

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import style from './orders.module.scss'
-import useFetchCollection from '../../../customHooks/useFetchCollection';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-import { store_order } from '../../../redux/features/orderSlice';
+import React, { useEffect } from "react";
+import style from "./orders.module.scss";
+import useFetchCollection from "../../../customHooks/useFetchCollection";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { store_order } from "../../../redux/features/orderSlice";
 import ReactLoading from "react-loading";
 
 const Orders = () => {
@@ -17,12 +17,11 @@ const Orders = () => {
     dispatch(store_order(data));
   }, [data]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleClick = (id:string) => {
-    navigate(`/admin/order-details/${id}`)
-  }
-
+  const handleClick = (id: string) => {
+    navigate(`/admin/order-details/${id}`);
+  };
 
   return (
     <>
@@ -33,7 +32,9 @@ const Orders = () => {
         </p>
         <br />
         <>
-          {isLoading && <ReactLoading type="spin" color="blue" height={400} width={50} />}
+          {isLoading && (
+            <ReactLoading type="spin" color="#008ae6" height={400} width={50} />
+          )}
           <div className={style.table}>
             {orderHistory.length === 0 ? (
               <p>No order found</p>
@@ -87,6 +88,6 @@ const Orders = () => {
       </div>
     </>
   );
-}
+};
 
-export default Orders
+export default Orders;

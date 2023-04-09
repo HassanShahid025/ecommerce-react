@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./auth.scss";
+import style from "./auth.module.scss";
 import forgotImg from "../../assets/forgot.png";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "../../firebase/config";
 import { sendPasswordResetEmail } from "firebase/auth";
-import Loader from "../../components/loader/Loader";
+import ReactLoading from "react-loading";
 
 const Reset = () => {
   const [email, setEmail] = useState("");
@@ -19,24 +19,24 @@ const Reset = () => {
       .then(() => {
         setLoading(false);
         toast.success("Reset link send to your email.");
-        
       })
       .catch((error) => {
         setLoading(false);
-        toast.error(error.message);     
+        toast.error(error.message);
       });
-    
   };
 
   return (
     <>
       <ToastContainer />
-      {loading && <Loader />}
-      <section className="container auth">
-        <div className="img">
-          <img src={forgotImg} alt="Reset" width="400" />
+      {loading && (
+        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+      )}
+      <section className={`container ${style.auth}`}>
+        <div className={style.img}>
+          <img src={forgotImg} alt="Reset" style={{ width: "400px" }} />
         </div>
-        <div className="form">
+        <div className={style.form}>
           <h2>Reset Password</h2>
           <form onSubmit={resetPassword}>
             <input
