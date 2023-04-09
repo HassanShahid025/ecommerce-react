@@ -1,9 +1,13 @@
 import React from 'react'
-import styles from './contact.scss'
+import style from './contact.scss'
 
 const Contact = () => {
   return (
-    <div>Contact</div>
+    <section>
+      <div className={`container `}>
+        <h1>Card</h1>
+      </div>
+    </section>
   )
 }
 

@@ -53,6 +53,9 @@ export interface IOrder {
   orderTime: string;
   userId: string;
   shippingAddress: any;
+  createdAt:any;
+  editedAt?:any
+
 }
 export interface IReview {
   createdAt: any;

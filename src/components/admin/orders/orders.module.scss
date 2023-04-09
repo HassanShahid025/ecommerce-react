@@ -3,23 +3,13 @@
     width: 100%;
     overflow-x: auto;
   
-    .search {
-      width: 100%;
-      max-width: 300px;
-    }
-  
     table {
       border-collapse: collapse;
       width: 100%;
       font-size: 1.4rem;
   
-      thead {
-        border-top: 2px solid var(--light-blue);
-        border-bottom: 2px solid var(--light-blue);
-      }
-  
       th {
-        border-top: 2px solid  var(--light-blue);
+          border-top: 2px solid  var(--light-blue);
         border-bottom: 2px solid  var(--light-blue);
       }
   
@@ -38,10 +28,19 @@
   
       tr {
         border-bottom: 1px solid #ccc;
+        cursor: pointer;
       }
   
       tr:nth-child(even) {
         background-color: #eee;
+      }
+      .pending {
+        color: orangered;
+        font-weight: 500;
+      }
+      .delivered {
+        color: green;
+        font-weight: 500;
       }
     }
   }

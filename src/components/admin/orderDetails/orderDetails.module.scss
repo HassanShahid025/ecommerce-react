@@ -3,20 +3,10 @@
     width: 100%;
     overflow-x: auto;
   
-    .search {
-      width: 100%;
-      max-width: 300px;
-    }
-  
     table {
       border-collapse: collapse;
       width: 100%;
       font-size: 1.4rem;
-  
-      thead {
-        border-top: 2px solid var(--light-blue);
-        border-bottom: 2px solid var(--light-blue);
-      }
   
       th {
         border-top: 2px solid  var(--light-blue);
@@ -43,5 +33,36 @@
       tr:nth-child(even) {
         background-color: #eee;
       }
+    }
+    .summary {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+  
+      .card {
+        padding: 1rem;
+        .text {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          h3 {
+            color: var(--color-danger);
+          }
+        }
+        button {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  .count {
+    display: flex;
+    align-items: center;
+    button {
+      border: 1px solid var(--darkblue);
+    }
+    & > * {
+      margin-right: 1rem;
     }
   }
