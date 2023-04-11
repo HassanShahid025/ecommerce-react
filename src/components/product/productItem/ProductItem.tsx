@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./ProductItem.module.scss";
 import { IProducts } from "../../../types";
 import { Card } from "../../card/Card";
@@ -12,6 +12,7 @@ interface IProductItem {
 }
 
 const ProductItem = ({ product, grid }: IProductItem) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { id, name, price, desc, imageURL } = product;
 
   const shortingText = (text:string, n:number) => {
@@ -28,7 +29,10 @@ const ProductItem = ({ product, grid }: IProductItem) => {
     dispatch(add_to_cart({product}))
     dispatch(calculate_CartTotalQuantity())
   }
-
+  
+  useEffect(() => {
+    setWindowWidth(windowWidth)
+  },[grid])
 
   return(
     <Card cardClass={grid ? `${style.grid}` : `${style.list}`}>
@@ -42,7 +46,7 @@ const ProductItem = ({ product, grid }: IProductItem) => {
           <p>{`$${price}`}</p>
           <h4>{shortingText(name!,18)}</h4>
         </div>
-        {!grid && <p className={style.desc}>{shortingText(desc!,200)}</p>}
+        {!grid && <p className={style.desc}>{windowWidth > 500 ? shortingText(desc!,200) : shortingText(desc!,50)}</p>}
         <button className="--btn --btn-danger" onClick={() => addToCart(product)}>Add To Cart</button>
       </div>
     </Card>

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import useFetchDocument from "../../customHooks/useFetchDocument";
 import { IProducts } from "../../types";
-import ReactLoading from "react-loading";
+import spinnerImg from "../../assets/spinner.jpg";
 
 const ReviewProduct = () => {
   const [rate, setRate] = useState(0);
@@ -55,7 +55,11 @@ const ReviewProduct = () => {
       <div className={`container ${style.review}`}>
         <h2>Review Product</h2>
         {product === null ? (
-          <ReactLoading type="spin" color="#008ae6" height={400} width={50} />
+         <div className="loading-container">
+         <img
+            src={spinnerImg}
+          />
+      </div>
         ) : (
           <>
             <p>

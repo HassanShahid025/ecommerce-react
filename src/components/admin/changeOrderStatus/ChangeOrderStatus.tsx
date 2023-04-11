@@ -1,12 +1,13 @@
 import { useState } from "react";
 import style from "./changeOrderStatus.module.scss";
-import ReactLoading from "react-loading";
+
 import { Card } from "../../card/Card";
 import { IOrder } from "../../../types";
 import { Timestamp, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import spinnerImg from "../../../assets/spinner.jpg";
 
 interface IChangeOrderStatus {
   order: IOrder | undefined;
@@ -48,10 +49,12 @@ const ChangeOrderStatus = ({ order, id }: IChangeOrderStatus) => {
 
   return (
     <>
-      {isLoading && (
-        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
-      )}
       <div className={style.status}>
+      {isLoading && (
+        <div className="loading-container">
+          <img src={spinnerImg} />
+        </div>
+      )}
         <Card cardClass={style.card}>
           <h4>Update Status</h4>
           <form onSubmit={(e) => editOrder(e, id!)}>

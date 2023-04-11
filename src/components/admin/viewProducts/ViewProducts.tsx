@@ -16,7 +16,7 @@ import { RootState } from "../../../redux/store";
 import { filter_by_search } from "../../../redux/features/filterSlice";
 import Search from "../../search/Search";
 import Pagination from "../../pagination/Pagination";
-import ReactLoading from "react-loading";
+import spinnerImg from '../../../assets/spinner.jpg'
 
 const ViewProducts = () => {
   const { data, isLoading } = useFetchCollection("products");
@@ -82,7 +82,11 @@ const ViewProducts = () => {
   return (
     <>
       {isLoading && (
-        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+        <div className="loading-container">
+        <img
+           src={spinnerImg}
+         />
+     </div>
       )}
       <div className="table">
         <h2>All Products</h2>

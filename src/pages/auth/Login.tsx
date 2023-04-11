@@ -11,10 +11,9 @@ import {
 import { auth } from "../../firebase/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "../../components/loader/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import ReactLoading from "react-loading";
+import spinnerImg from '../../assets/spinner.jpg'
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,6 +39,8 @@ const Login = () => {
       .then((userCredentials) => {
         setLoading(false);
         toast.success("Login Successful");
+        setEmail("")
+        setPassword("")
         redirectUser();
       })
       .catch((error) => {
@@ -66,7 +67,9 @@ const Login = () => {
       <ToastContainer />
       {loading && (
         <div className="loading-container">
-          <ReactLoading type="spin" color="#008ae6" height={400} width={100} className="loading"/>
+           <img
+              src={spinnerImg}
+            />
         </div>
       )}
       <section className={`container ${style.auth}`}>

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "../../firebase/config";
 import { sendPasswordResetEmail } from "firebase/auth";
-import ReactLoading from "react-loading";
+import spinnerImg from "../../assets/spinner.jpg";
 
 const Reset = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +18,7 @@ const Reset = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         setLoading(false);
+        setEmail("")
         toast.success("Reset link send to your email.");
       })
       .catch((error) => {
@@ -30,7 +31,11 @@ const Reset = () => {
     <>
       <ToastContainer />
       {loading && (
-        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+        <div className="loading-container">
+        <img
+           src={spinnerImg}
+         />
+     </div>
       )}
       <section className={`container ${style.auth}`}>
         <div className={style.img}>

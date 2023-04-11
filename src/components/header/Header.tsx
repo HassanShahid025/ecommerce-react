@@ -33,8 +33,7 @@ const activeLink = ({ isActive }: { isActive: boolean }) =>
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  // const [Name, setName] = useState<string | null>("");
-  const [scrollPage, setScrollPage] = useState(false)
+  const [name, setName] = useState<string | null>("");
 
   const { userName, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
@@ -44,34 +43,24 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  const fixNavbar = () => {
-    if(window.scrollY > 50){
-      setScrollPage(true)
-    }
-    else{
-      setScrollPage(false)
-    }
-  }
-  window.addEventListener("scroll", fixNavbar)
 
   //Monitor currently signed in user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // setName(user.displayName);
-        let firstName;
         if (user.displayName) {
-          firstName = user.displayName!.split(" ")[0];
+          setName(user.displayName!.split(" ")[0]);
         }
         dispatch(
-          setUser({ email: user.email, userName: firstName, userId: user.uid })
+          setUser({ email: user.email, userName: name, userId: user.uid })
         );
       } else {
-        // setName("");
+        setName("");
         dispatch(removeUser());
       }
     });
-  }, []);
+  }, [name]);
+
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);

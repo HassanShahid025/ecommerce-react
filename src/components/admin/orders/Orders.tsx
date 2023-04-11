@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { store_order } from "../../../redux/features/orderSlice";
-import ReactLoading from "react-loading";
+import spinnerImg from '../../../assets/spinner.jpg'
 
 const Orders = () => {
   const { data, isLoading } = useFetchCollection("orders");
@@ -33,7 +33,11 @@ const Orders = () => {
         <br />
         <>
           {isLoading && (
-            <ReactLoading type="spin" color="#008ae6" height={400} width={50} />
+            <div className="loading-container">
+            <img
+               src={spinnerImg}
+             />
+         </div>
           )}
           <div className={style.table}>
             {orderHistory.length === 0 ? (

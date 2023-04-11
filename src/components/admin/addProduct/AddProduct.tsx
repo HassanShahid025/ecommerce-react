@@ -15,7 +15,7 @@ import Loader from "../../loader/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import ReactLoading from "react-loading";
+import spinnerImg from "../../../assets/spinner.jpg";
 
 const categories = [
   {
@@ -151,7 +151,12 @@ const AddProduct = () => {
   return (
     <>
       {isLoading && (
-        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+         <img
+         src={spinnerImg}
+         alt="Loading.."
+         style={{ width: "50px" }}
+         className="--center-all"
+       />
       )}
       <div className={styles.product}>
         <h2>{detectForm(id!, "Add Product", "Edit Product")}</h2>

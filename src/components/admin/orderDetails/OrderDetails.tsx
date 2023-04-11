@@ -3,8 +3,9 @@ import style from "./orderDetails.module.scss";
 import { Link, useParams } from "react-router-dom";
 import useFetchDocument from "../../../customHooks/useFetchDocument";
 import { IOrder } from "../../../types";
-import ReactLoading from "react-loading";
+
 import ChangeOrderStatus from "../changeOrderStatus/ChangeOrderStatus";
+import spinnerImg from '../../../assets/spinner.jpg'
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -24,7 +25,11 @@ const OrderDetails = () => {
         </div>
         <br />
         {order === undefined || order === null ? (
-          <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+          <div className="loading-container">
+          <img
+             src={spinnerImg}
+           />
+       </div>
         ) : (
           <>
             <p>

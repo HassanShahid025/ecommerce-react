@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { store_order } from "../../redux/features/orderSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import ReactLoading from "react-loading";
+import spinnerImg from "../../assets/spinner.jpg";
 import { useNavigate } from "react-router-dom";
 
 const OrderHistory = () => {
@@ -40,12 +40,11 @@ const OrderHistory = () => {
         <br />
         <>
           {isLoading && (
-            <ReactLoading
-              type="spin"
-              color="#008ae6"
-              height={400}
-              width={100}
+           <div className="loading-container">
+           <img
+              src={spinnerImg}
             />
+        </div>
           )}
           <div className={style.table}>
             {filteredOrders.length === 0 ? (

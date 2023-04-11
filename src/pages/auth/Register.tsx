@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/config";
-import ReactLoading from "react-loading";
+import spinnerImg from "../../assets/spinner.jpg";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -38,9 +38,12 @@ const Register = () => {
               // An error occurred
               // ...
             });
-          console.log(user);
           setLoading(false);
           toast.success("Registration Successfull");
+          setFullName("")
+          setEmail("")
+          setConfirmPassword("")
+          setPassword("")
           navigate("/login");
         })
         .catch((error) => {
@@ -54,7 +57,11 @@ const Register = () => {
     <>
       <ToastContainer />
       {loading && (
-        <ReactLoading type="spin" color="#008ae6" height={400} width={100} />
+        <div className="loading-container">
+        <img
+           src={spinnerImg}
+         />
+     </div>
       )}
       <section className={`container ${style.auth}`}>
         <div className={style.form}>

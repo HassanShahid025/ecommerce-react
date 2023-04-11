@@ -74,9 +74,7 @@ const cartSlice = createSlice({
     },
     clear_cart: (state) => {
       state.cartItems = [];
-      toast.info(`cart cleared`, {
-        position: "top-left",
-      });
+
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     calculate_cartTotalAmount: (state) => {
