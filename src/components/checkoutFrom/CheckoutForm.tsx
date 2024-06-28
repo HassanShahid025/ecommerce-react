@@ -3,7 +3,9 @@ import { Card } from "../card/Card";
 import CheckoutSummary from "../checkoutSummary/CheckoutSummary";
 import CheckoutPayment from "../checkoutPayment/CheckoutPayment";
 
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
+  const { stripePromise } = props;
+
   return (
     <section>
       <h3 className="container">Checkout</h3>
@@ -16,7 +18,7 @@ const CheckoutForm = () => {
 
         <div>
           <Card cardClass={`${style.card} ${style.pay}`}>
-            <CheckoutPayment />
+            <CheckoutPayment  stripePromise={stripePromise}/>
           </Card>
         </div>
       </div>

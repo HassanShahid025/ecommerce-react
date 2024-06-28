@@ -17,10 +17,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from "../checkoutFormStripe/CheckoutForm";
 
-const stripePromise = loadStripe('pk_test_51NS67qAixrBBKI7AqfhoLyQDDPBYw6XpS6u9K6jwJPSZwSjCqSTHYsWD6FVcg7JzySqvyLRNlFclKOfmkmgy6dXf00upWhsLDT');
-    const options = {};
-
-
 const initialCardData = {
   name: "",
   cardNumber: "",
@@ -30,15 +26,60 @@ const initialCardData = {
   zip: "",
 };
 
-const CheckoutPayment = () => {
+const CheckoutPayment = (props) => {
+  const { stripePromise } = props;
+  const [ clientSecret, setClientSecret ] = useState('');
+  const [ secretKeyST, setSecretKeyST ] = useState('');
+
+
+
   const [isCardVisible, setIsCardVisible] = useState(false);
-  const [paymentOption, setPaymentOption] = useState("");
+  const [paymentOption, setPaymentOption] = useState("card");
   const [card, setCard] = useState({ ...initialCardData });
   const [isExpiry, setIsExpiry] = useState(false);
 
   const {email,userId} = useSelector((store:RootState) => store.auth)
   const {cartItems,cartTotalAmount} = useSelector((store:RootState) => store.cart)
   const {shippingAddress} = useSelector((store:RootState) => store.checkout)
+
+
+
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const response = await fetch("https://edukaanbackend.onrender.com/config");
+        const data = await response.json();
+        setSecretKeyST(data.secretKey);
+      } catch (error) {
+        console.error("Error fetching config:", error);
+      }
+    };
+
+    const fetchPaymentIntent = async () => {
+      try {
+        const response = await fetch("https://edukaanbackend.onrender.com/create-payment-intent", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${secretKeyST}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: cartTotalAmount * 100, // Amount in cents
+            currency: "usd",
+          }),
+        });
+
+        const data = await response.json();
+        setClientSecret(data.clientSecret);
+      } catch (error) {
+        console.error("Error fetching payment intent:", error);
+      }
+    };
+
+    fetchConfig();
+    fetchPaymentIntent();
+  }, [cartTotalAmount]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -161,9 +202,6 @@ const CheckoutPayment = () => {
       );
       setCard({...card, expiration:event.target.value})
   };
-
-
-
 
 
   const handleSubmit = () => {
@@ -309,17 +347,21 @@ const CheckoutPayment = () => {
       
        
         {disableButton()?(
-        <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm />
-        </Elements>
+          clientSecret && stripePromise && 
+          (
+            <Elements stripe={stripePromise} options={{ clientSecret, }}>
+              <CheckoutForm clientSecret={clientSecret}/>
+            </Elements>
+          )
+          
         ):(
           <button
-        className={`--btn --btn-primary ${style.checkoutBtn}`}
-        onClick={handleSubmit}
-        disabled={disableButton()}
-      >
-        Checkout
-      </button>
+            className={`--btn --btn-primary ${style.checkoutBtn}`}
+            onClick={handleSubmit}
+            disabled={disableButton()}
+          >
+            Checkout
+          </button>
         )}
        
       

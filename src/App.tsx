@@ -21,9 +21,19 @@ import CheckOutSuccessfull from "./pages/checkout/CheckOutSuccessfull";
 import OrderDetails from "./pages/orderDetails/OrderDetails";
 import ReviewProduct from "./components/reviewProduct/ReviewProduct";
 import NotFound from "./pages/notFound/NotFound";
+import {loadStripe} from '@stripe/stripe-js';
+import { useEffect, useState } from "react";
 
 
 function App() {
+  const [ stripePromise, setStripePromise ] = useState(null);
+
+  useEffect(() => {
+    fetch("https://edukaanbackend.onrender.com/config").then(async (r) => {
+      const { publishableKey } = await r.json();
+      setStripePromise(loadStripe(publishableKey));
+    });
+  }, []);
   return (
     <>
       <Header />
@@ -36,7 +46,7 @@ function App() {
         <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout-details" element={<CheckoutDetails />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={<Checkout  stripePromise={stripePromise} />} />
         <Route path="/checkout-success" element={<CheckOutSuccessfull />} />
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/order-details/:id" element={<OrderDetails />} />
