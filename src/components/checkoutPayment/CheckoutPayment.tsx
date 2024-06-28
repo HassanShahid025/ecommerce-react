@@ -13,6 +13,13 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { clear_cart } from "../../redux/features/cartSlice";
 import { toast } from "react-toastify";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from "../checkoutFormStripe/CheckoutForm";
+
+const stripePromise = loadStripe('pk_test_51NS67qAixrBBKI7AqfhoLyQDDPBYw6XpS6u9K6jwJPSZwSjCqSTHYsWD6FVcg7JzySqvyLRNlFclKOfmkmgy6dXf00upWhsLDT');
+    const options = {};
+
 
 const initialCardData = {
   name: "",
@@ -37,6 +44,7 @@ const CheckoutPayment = () => {
   const dispatch = useDispatch()
 
   const handlePaymentOptionChange = (e: any) => {
+    console.log(e.target.value)
     setPaymentOption(e.target.value);
     setIsCardVisible(e.target.value === "card");
     if (e.target.value === "cash") {
@@ -154,6 +162,10 @@ const CheckoutPayment = () => {
       setCard({...card, expiration:event.target.value})
   };
 
+
+
+
+
   const handleSubmit = () => {
     const today = new Date();
     const date = today.toDateString();
@@ -208,7 +220,7 @@ const CheckoutPayment = () => {
       </div>
 
   
-      <div className={style.inputBox}>
+      {/* <div className={style.inputBox}>
         <span>Name on card</span>
         <input
           name="name"
@@ -292,16 +304,25 @@ const CheckoutPayment = () => {
             maxLength={5}
           />
         </div>
-      </div>
+      </div> */}
 
-      <button
+      
+       
+        {disableButton()?(
+        <Elements stripe={stripePromise} options={options}>
+            <CheckoutForm />
+        </Elements>
+        ):(
+          <button
         className={`--btn --btn-primary ${style.checkoutBtn}`}
         onClick={handleSubmit}
         disabled={disableButton()}
       >
         Checkout
       </button>
-      <div></div>
+        )}
+       
+      
     </div>
   );
 };
