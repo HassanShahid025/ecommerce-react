@@ -70,7 +70,7 @@ const CheckoutFormStripe = ({clientSecret}:{clientSecret:string}) => {
     // })
     stripe?.confirmCardPayment(clientSecret, {
       payment_method: {
-        card: elements?.getElement(CardElement),
+        card: elements.getElement(CardElement)!,
       },
     })
     .then(function(result) {
