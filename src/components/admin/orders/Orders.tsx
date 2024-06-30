@@ -12,6 +12,8 @@ const Orders = () => {
   const { data, isLoading } = useFetchCollection("orders");
   const { orderHistory } = useSelector((store: RootState) => store.order);
 
+  console.log(data)
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(store_order(data));

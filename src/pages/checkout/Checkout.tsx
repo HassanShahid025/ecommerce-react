@@ -1,9 +1,9 @@
 import CheckoutForm from "../../components/checkoutFrom/CheckoutForm";
 
-const Checkout = () => {
+const Checkout = ({stripePromise}:{stripePromise: any}) => {
   return (
     <>
-      <CheckoutForm />
+      <CheckoutForm stripePromise={stripePromise}/>
     </>
   );
 };
