@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo192.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter+Tight:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter+Tight:wght@300&display=swap"
+      rel="stylesheet"
+    />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>eDukaan App</title>
@@ -13,5 +16,21 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="text/javascript">
+      (function (d, t) {
+        var v = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        v.onload = function () {
+          window.voiceflow.chat.load({
+            verify: { projectID: "66802236b8053163392be07d" },
+            url: "https://general-runtime.voiceflow.com",
+            versionID: "production",
+          });
+        };
+        v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
+        v.type = "text/javascript";
+        s.parentNode.insertBefore(v, s);
+      })(document, "script");
+    </script>
   </body>
 </html>
