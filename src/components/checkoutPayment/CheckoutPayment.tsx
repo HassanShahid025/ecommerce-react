@@ -97,54 +97,54 @@ const CheckoutPayment = ({ stripePromise }: { stripePromise: any }) => {
     }
   };
 
-  const handleCard = (e: any) => {
-    let { name, value } = e.target;
+  // const handleCard = (e: any) => {
+  //   let { name, value } = e.target;
 
-    if (name === "cardNumber") {
-      const outputString = value.replace(
-        /(\d{4})|[^0-9]/g,
-        (match: any, group1: any) => {
-          if (group1) {
-            return group1 + " "; // Add a space after every four digits
-          } else {
-            return ""; // Remove non-digit characters
-          }
-        }
-      );
-      setCard({ ...card, [name]: outputString });
-    } else if (name === "cvc" || name === "zip") {
-      console.log("gdfggf");
-      value = value.replace(/[^0-9]/g, "");
-      setCard({ ...card, [name]: value });
-    } else {
-      setCard({ ...card, [name]: value });
-    }
-  };
+  //   if (name === "cardNumber") {
+  //     const outputString = value.replace(
+  //       /(\d{4})|[^0-9]/g,
+  //       (match: any, group1: any) => {
+  //         if (group1) {
+  //           return group1 + " "; // Add a space after every four digits
+  //         } else {
+  //           return ""; // Remove non-digit characters
+  //         }
+  //       }
+  //     );
+  //     setCard({ ...card, [name]: outputString });
+  //   } else if (name === "cvc" || name === "zip") {
+  //     console.log("gdfggf");
+  //     value = value.replace(/[^0-9]/g, "");
+  //     setCard({ ...card, [name]: value });
+  //   } else {
+  //     setCard({ ...card, [name]: value });
+  //   }
+  // };
 
-  const date = new Date();
+  // const date = new Date();
 
-  const checkExpiry = () => {
-    if (card.expiration.length === 5) {
-      const currentYear = parseInt(date.getFullYear().toString().slice(2, 5));
-      const cardExpiryYear = parseInt(card.expiration.slice(3, 6));
-      if (cardExpiryYear < currentYear) {
-        setIsExpiry(true);
-      } else if (cardExpiryYear > currentYear) {
-        setIsExpiry(false);
-      } else if (cardExpiryYear === currentYear) {
-        const currentMonth = parseInt(date.getMonth().toString().slice(0, 2));
-        const cardExpiryMonth = parseInt(card.expiration.slice(0, 2));
-        if (cardExpiryMonth <= currentMonth) {
-          setIsExpiry(true);
-        } else if (cardExpiryMonth > currentMonth) {
-          setIsExpiry(false);
-        }
-      }
-    }
-  };
-  useEffect(() => {
-    checkExpiry();
-  }, [card.expiration]);
+  // const checkExpiry = () => {
+  //   if (card.expiration.length === 5) {
+  //     const currentYear = parseInt(date.getFullYear().toString().slice(2, 5));
+  //     const cardExpiryYear = parseInt(card.expiration.slice(3, 6));
+  //     if (cardExpiryYear < currentYear) {
+  //       setIsExpiry(true);
+  //     } else if (cardExpiryYear > currentYear) {
+  //       setIsExpiry(false);
+  //     } else if (cardExpiryYear === currentYear) {
+  //       const currentMonth = parseInt(date.getMonth().toString().slice(0, 2));
+  //       const cardExpiryMonth = parseInt(card.expiration.slice(0, 2));
+  //       if (cardExpiryMonth <= currentMonth) {
+  //         setIsExpiry(true);
+  //       } else if (cardExpiryMonth > currentMonth) {
+  //         setIsExpiry(false);
+  //       }
+  //     }
+  //   }
+  // };
+  // useEffect(() => {
+  //   checkExpiry();
+  // }, [card.expiration]);
 
   const disableButton = () => {
     if (paymentOption === "") {
@@ -167,45 +167,45 @@ const CheckoutPayment = ({ stripePromise }: { stripePromise: any }) => {
     }
   };
 
-  const formatExpiryInput = (event: any) => {
-    const inputChar = String.fromCharCode(event.keyCode);
-    const code = event.keyCode;
-    const allowedKeys = [8];
-    if (allowedKeys.indexOf(code) !== -1) {
-      return;
-    }
+  // const formatExpiryInput = (event: any) => {
+  //   const inputChar = String.fromCharCode(event.keyCode);
+  //   const code = event.keyCode;
+  //   const allowedKeys = [8];
+  //   if (allowedKeys.indexOf(code) !== -1) {
+  //     return;
+  //   }
 
-    event.target.value = event.target.value
-      .replace(
-        /^([1-9]\/|[2-9])$/g,
-        "0$1/" // 3 > 03/
-      )
-      .replace(
-        /^(0[1-9]|1[0-2])$/g,
-        "$1/" // 11 > 11/
-      )
-      .replace(
-        /^([0-1])([3-9])$/g,
-        "0$1/$2" // 13 > 01/3
-      )
-      .replace(
-        /^(0?[1-9]|1[0-2])([0-9]{2})$/g,
-        "$1/$2" // 141 > 01/41
-      )
-      .replace(
-        /^([0]+)\/|[0]+$/g,
-        "0" // 0/ > 0 and 00 > 0
-      )
-      .replace(
-        /[^\d\/]|^[\/]*$/g,
-        "" // To allow only digits and `/`
-      )
-      .replace(
-        /\/\//g,
-        "/" // Prevent entering more than 1 `/`
-      );
-    setCard({ ...card, expiration: event.target.value });
-  };
+  //   event.target.value = event.target.value
+  //     .replace(
+  //       /^([1-9]\/|[2-9])$/g,
+  //       "0$1/" // 3 > 03/
+  //     )
+  //     .replace(
+  //       /^(0[1-9]|1[0-2])$/g,
+  //       "$1/" // 11 > 11/
+  //     )
+  //     .replace(
+  //       /^([0-1])([3-9])$/g,
+  //       "0$1/$2" // 13 > 01/3
+  //     )
+  //     .replace(
+  //       /^(0?[1-9]|1[0-2])([0-9]{2})$/g,
+  //       "$1/$2" // 141 > 01/41
+  //     )
+  //     .replace(
+  //       /^([0]+)\/|[0]+$/g,
+  //       "0" // 0/ > 0 and 00 > 0
+  //     )
+  //     .replace(
+  //       /[^\d\/]|^[\/]*$/g,
+  //       "" // To allow only digits and `/`
+  //     )
+  //     .replace(
+  //       /\/\//g,
+  //       "/" // Prevent entering more than 1 `/`
+  //     );
+  //   setCard({ ...card, expiration: event.target.value });
+  // };
 
   const handleSubmit = () => {
     const today = new Date();

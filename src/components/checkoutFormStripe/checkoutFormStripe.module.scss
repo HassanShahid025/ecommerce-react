@@ -32,7 +32,7 @@
   gap: 20px;
 }
 
-button {
+.stripeBtn {
   background-color: #6772e5;
   color: white;
   border: none;
@@ -42,7 +42,7 @@ button {
   transition: background-color 150ms ease;
 }
 
-button:hover {
+.stripeBtn:hover {
   background-color: #5469d4;
 }
 

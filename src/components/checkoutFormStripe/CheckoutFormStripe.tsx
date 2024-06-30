@@ -109,7 +109,7 @@ const CheckoutFormStripe = ({clientSecret}:{clientSecret:string}) => {
   return (
     <form onSubmit={handleSubmit} className={style.stripeForm}>
       <CardElement  options={cardElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button disabled={isLoading || !stripe || !elements} id="submit" className={style.stripeBtn}>
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>
